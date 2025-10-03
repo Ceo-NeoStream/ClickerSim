@@ -2,255 +2,91 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Super Mini ChatBot</title>
+<title>Fond Animé Rouge</title>
 <style>
-  :root {
-    --bg: #ffffff;
-    --primary: #0b5fff;
-    --user-msg: #e6f0ff;
-    --bot-msg: #f1f1f1;
-    --text: #111;
-  }
-  html,body {
-    height: 100%;
+  html, body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .chat-container {
-    width: 100%;
-    max-width: 720px;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+    padding: 0;
+    height: 100%;
     overflow: hidden;
-    border: 1px solid #eee;
+    background: linear-gradient(-45deg, #000000, #330000, #660000, #990000);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
   }
-  header {
-    padding: 16px;
-    background: linear-gradient(90deg,#fff,#fafafa);
-    border-bottom: 1px solid #eee;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
-  header .logo {
-    width:36px; height:36px; border-radius:8px;
-    background: var(--primary); display:flex; justify-content:center; align-items:center;
-    color:#fff; font-weight:700;
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-  header h1 { font-size:16px; margin:0; }
-  .messages {
-    flex: 1;
-    padding: 18px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .msg {
-    max-width: 80%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    line-height: 1.3;
-    word-wrap: break-word;
-  }
-  .msg.user {
-    align-self: flex-end;
-    background: var(--user-msg);
-    border-bottom-right-radius: 4px;
-  }
-  .msg.bot {
-    align-self: flex-start;
-    background: var(--bot-msg);
-    border-bottom-left-radius: 4px;
-  }
-  .meta {
-    font-size: 12px;
-    color: #666;
-    margin-top: 6px;
-  }
-  .composer {
-    padding: 12px;
-    border-top: 1px solid #eee;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    background: linear-gradient(180deg,#fff,#fbfbfb);
-  }
-  textarea {
-    resize: none;
-    flex: 1;
-    min-height: 44px;
-    max-height: 120px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-family: inherit;
-    font-size: 14px;
-  }
-  button {
-    background: var(--primary);
-    color: #fff;
-    border: 0;
-    padding: 10px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  .small {
-    font-size: 12px;
-    color: #777;
-    padding: 8px 12px;
-  }
-  .controls { display:flex; gap:8px; align-items:center; }
 </style>
 </head>
 <body>
-<div class="chat-container">
-  <header>
-    <div class="logo">CB</div>
-    <div>
-      <h1>Super Mini ChatBot</h1>
-      <div class="small">Pose-lui une question ! Commandes : /reset, /nom tonNom</div>
-    </div>
-  </header>
-  <div id="messages" class="messages" aria-live="polite"></div>
-  <div class="composer">
-    <textarea id="input" placeholder="Écris ta question..." aria-label="Message"></textarea>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <div class="controls">
-        <button id="send">Envoyer</button>
-        <button id="clear" style="background:#eee;color:#333;font-weight:600;padding:8px 10px;border-radius:8px;">Effacer</button>
-      </div>
-    </div>
-  </div>
-</div>
+<canvas id="particles"></canvas>
 
 <script>
-const messagesEl = document.getElementById('messages');
-const inputEl = document.getElementById('input');
-const sendBtn = document.getElementById('send');
-const clearBtn = document.getElementById('clear');
-const STORAGE_KEY = 'super_mini_chat_history_v1';
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
 
-let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let userName = localStorage.getItem('chat_user_name') || 'Utilisateur';
+window.addEventListener('resize', () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+});
 
-const appendMessage = (who, text) => {
-  const wrap = document.createElement('div');
-  const msg = document.createElement('div');
-  msg.className = 'msg ' + (who === 'user' ? 'user' : 'bot');
-  msg.textContent = text;
-  wrap.appendChild(msg);
+// Création des particules
+const particles = [];
+const particleCount = 80;
 
-  const meta = document.createElement('div');
-  meta.className = 'meta';
-  const now = new Date();
-  meta.textContent = (who === 'user' ? userName+' • ' : 'Bot • ') + now.toLocaleTimeString();
-  wrap.appendChild(meta);
-
-  messagesEl.appendChild(wrap);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-};
-
-const saveHistory = () => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-};
-
-const botReply = (text) => {
-  const t = text.toLowerCase().trim();
-  // commandes
-  if(t.startsWith('/nom ')){
-    const name = text.slice(5).trim();
-    if(name){
-      userName = name;
-      localStorage.setItem('chat_user_name', userName);
-      return `Parfait ! Je retiens ton nom : ${userName}`;
-    }
-    return 'Je n’ai pas compris le nom.';
-  }
-  if(t === '/reset'){
-    history = [];
-    saveHistory();
-    return 'Conversation réinitialisée.';
-  }
-
-  if(t === '') return "Tu n'as rien écrit 😉";
-
-  // réponses basées sur mots-clés
-  const replies = [];
-  if(t.includes('bonjour') || t.includes('salut')) replies.push("Salut "+userName+" ! 😃");
-  if(t.includes('comment ça va') || t.includes("ça va")) replies.push("Moi ça va ! Et toi ?");
-  if(t.includes('roblox')) replies.push("Tu crées des jeux Roblox ? Cool !");
-  if(t.includes('clicker') || t.includes('click')) replies.push("Un clicker ! Tu peux ajouter des upgrades et auto-clickers.");
-  if(t.includes('aide') || t.includes('comment')) replies.push("Dis-m'en plus sur ce que tu veux faire.");
-  if(t.includes('merci')) replies.push("Avec plaisir !");
-
-  // réponse aléatoire si aucun mot-clé
-  if(replies.length === 0){
-    const generic = [
-      "Intéressant — dis-m'en plus.",
-      "Bonne question ! Je peux te donner un exemple de code si tu veux.",
-      "Hmm... je n'ai pas compris, peux-tu reformuler ?",
-      "Je peux t'aider à faire un site, un bot, ou un jeu. Que préfères-tu ?"
-    ];
-    replies.push(generic[Math.floor(Math.random()*generic.length)]);
-  }
-
-  return replies[Math.floor(Math.random()*replies.length)];
-};
-
-history.forEach(item => appendMessage(item.who, item.text));
-
-function sendMessage(){
-  const text = inputEl.value.trim();
-  if(!text) return;
-
-  history.push({who:'user', text, ts:Date.now()});
-  appendMessage('user', text);
-  saveHistory();
-  inputEl.value = '';
-  inputEl.focus();
-
-  // message temporaire "typing..."
-  appendMessage('bot','...');
-  setTimeout(()=>{
-    const last = messagesEl.querySelectorAll('.msg.bot');
-    if(last.length){
-      const tmp = last[last.length-1];
-      tmp.parentElement.removeChild(tmp);
-    }
-    const reply = botReply(text);
-    history.push({who:'bot', text:reply, ts:Date.now()});
-    appendMessage('bot', reply);
-    saveHistory();
-  }, 600 + Math.random()*800);
+for(let i=0; i<particleCount; i++){
+  particles.push({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 3 + 1,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5,
+    alpha: Math.random() * 0.8 + 0.2,
+    alphaChange: (Math.random() * 0.02) + 0.005
+  });
 }
 
-sendBtn.addEventListener('click', sendMessage);
-inputEl.addEventListener('keydown',(e)=>{
-  if(e.key==='Enter' && !e.shiftKey){
-    e.preventDefault();
-    sendMessage();
-  }
-});
+// Fonction d'animation
+function animate(){
+  ctx.clearRect(0,0,width,height);
 
-clearBtn.addEventListener('click',()=>{
-  if(confirm("Effacer la conversation locale ?")){
-    history=[];
-    saveHistory();
-    messagesEl.innerHTML='';
+  for(let i=0;i<particles.length;i++){
+    let p = particles[i];
+
+    // Déplacement
+    p.x += p.dx;
+    p.y += p.dy;
+
+    // Rebond sur les bords
+    if(p.x < 0 || p.x > width) p.dx *= -1;
+    if(p.y < 0 || p.y > height) p.dy *= -1;
+
+    // Variation alpha pour scintillement
+    p.alpha += p.alphaChange;
+    if(p.alpha > 1 || p.alpha < 0.2) p.alphaChange *= -1;
+
+    // Dessiner la particule
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 150, 150, ${p.alpha})`;
+    ctx.fill();
   }
-});
+
+  requestAnimationFrame(animate);
+}
+
+animate();
 </script>
 </body>
 </html>
