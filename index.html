@@ -1,242 +1,256 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <title>Mini ChatBot</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root{
-      --bg: #ffffff;
-      --primary: #0b5fff;
-      --user-msg: #e6f0ff;
-      --bot-msg: #f1f1f1;
-      --text: #111;
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: Inter, system-ui, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      box-sizing:border-box;
-    }
-
-    .chat-container{
-      width:100%;
-      max-width:720px;
-      height:80vh;
-      border-radius:12px;
-      box-shadow:0 6px 30px rgba(10,10,10,0.08);
-      display:flex;
-      flex-direction:column;
-      overflow:hidden;
-      border:1px solid #eee;
-    }
-
-    header{
-      padding:16px;
-      background:linear-gradient(90deg, #fff 0%, #fafafa 100%);
-      border-bottom:1px solid #eee;
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    header .logo{
-      width:36px;height:36px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
-    }
-    header h1{font-size:16px;margin:0;}
-
-    .messages{
-      flex:1;
-      padding:18px;
-      overflow:auto;
-      background:transparent;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .msg{
-      max-width:80%;
-      padding:12px 14px;
-      border-radius:12px;
-      line-height:1.3;
-    }
-    .msg.user{
-      align-self:flex-end;
-      background:var(--user-msg);
-      border-bottom-right-radius:4px;
-    }
-    .msg.bot{
-      align-self:flex-start;
-      background:var(--bot-msg);
-      border-bottom-left-radius:4px;
-    }
-    .meta{
-      font-size:12px;color:#666;margin-top:6px;
-    }
-
-    .composer{
-      padding:12px;
-      border-top:1px solid #eee;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      background:linear-gradient(180deg,#fff,#fbfbfb);
-    }
-    textarea{
-      resize:none;
-      flex:1;
-      min-height:44px;
-      max-height:120px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #ddd;
-      font-family:inherit;
-      font-size:14px;
-    }
-    button{
-      background:var(--primary);
-      color:#fff;
-      border:0;
-      padding:10px 14px;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-    }
-    .small{
-      font-size:12px;color:#777;padding:8px 12px;
-    }
-    .controls{display:flex;gap:8px;align-items:center;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Mini ChatBot</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --primary: #0b5fff;
+    --user-msg: #e6f0ff;
+    --bot-msg: #f1f1f1;
+    --text: #111;
+  }
+  html,body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .chat-container {
+    width: 100%;
+    max-width: 720px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+  header {
+    padding: 16px;
+    background: linear-gradient(90deg,#fff,#fafafa);
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header .logo {
+    width:36px; height:36px; border-radius:8px;
+    background: var(--primary); display:flex; justify-content:center; align-items:center;
+    color:#fff; font-weight:700;
+  }
+  header h1 { font-size:16px; margin:0; }
+  .messages {
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .msg {
+    max-width: 80%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: var(--user-msg);
+    border-bottom-right-radius: 4px;
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: var(--bot-msg);
+    border-bottom-left-radius: 4px;
+  }
+  .meta {
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+  }
+  .composer {
+    padding: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: linear-gradient(180deg,#fff,#fbfbfb);
+  }
+  textarea {
+    resize: none;
+    flex: 1;
+    min-height: 44px;
+    max-height: 120px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  button {
+    background: var(--primary);
+    color: #fff;
+    border: 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .small {
+    font-size: 12px;
+    color: #777;
+    padding: 8px 12px;
+  }
+  .controls { display:flex; gap:8px; align-items:center; }
+</style>
 </head>
 <body>
-  <div class="chat-container" role="application">
-    <header>
-      <div class="logo">CB</div>
-      <div>
-        <h1>Mini ChatBot</h1>
-        <div class="small">Pose-lui une question — réponse locale pour l'instant.</div>
-      </div>
-    </header>
-
-    <div id="messages" class="messages" aria-live="polite"></div>
-
-    <div class="composer">
-      <textarea id="input" placeholder="Écris ta question..." aria-label="Message"></textarea>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div class="controls">
-          <button id="send">Envoyer</button>
-          <button id="clear" style="background:#eee;color:#333;font-weight:600;padding:8px 10px;border-radius:8px;">Effacer</button>
-        </div>
-        <div class="small">La conversation est sauvegardée dans ton navigateur.</div>
+<div class="chat-container">
+  <header>
+    <div class="logo">CB</div>
+    <div>
+      <h1>Super Mini ChatBot</h1>
+      <div class="small">Pose-lui une question ! Commandes : /reset, /nom tonNom</div>
+    </div>
+  </header>
+  <div id="messages" class="messages" aria-live="polite"></div>
+  <div class="composer">
+    <textarea id="input" placeholder="Écris ta question..." aria-label="Message"></textarea>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="controls">
+        <button id="send">Envoyer</button>
+        <button id="clear" style="background:#eee;color:#333;font-weight:600;padding:8px 10px;border-radius:8px;">Effacer</button>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    // Petit chatbot local avec rules + réponses aléatoires
-    const messagesEl = document.getElementById('messages');
-    const inputEl = document.getElementById('input');
-    const sendBtn = document.getElementById('send');
-    const clearBtn = document.getElementById('clear');
+<script>
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const clearBtn = document.getElementById('clear');
+const STORAGE_KEY = 'super_mini_chat_history_v1';
 
-    // Charge l'historique depuis localStorage
-    const STORAGE_KEY = 'mini_chat_history_v1';
-    let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+let userName = localStorage.getItem('chat_user_name') || 'Utilisateur';
 
-    const appendMessage = (who, text) => {
-      const wrap = document.createElement('div');
-      const msg = document.createElement('div');
-      msg.className = 'msg ' + (who === 'user' ? 'user' : 'bot');
-      msg.textContent = text;
-      wrap.appendChild(msg);
-      const meta = document.createElement('div');
-      meta.className = 'meta';
-      const now = new Date();
-      meta.textContent = (who === 'user' ? 'Vous • ' : 'Bot • ') + now.toLocaleTimeString();
-      wrap.appendChild(meta);
-      messagesEl.appendChild(wrap);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
+const appendMessage = (who, text) => {
+  const wrap = document.createElement('div');
+  const msg = document.createElement('div');
+  msg.className = 'msg ' + (who === 'user' ? 'user' : 'bot');
+  msg.textContent = text;
+  wrap.appendChild(msg);
 
-    const saveHistory = () => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    };
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const now = new Date();
+  meta.textContent = (who === 'user' ? userName+' • ' : 'Bot • ') + now.toLocaleTimeString();
+  wrap.appendChild(meta);
 
-    // Logique simple de réponses
-    function botReply(userText) {
-      const t = userText.toLowerCase().trim();
+  messagesEl.appendChild(wrap);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+};
 
-      // réponses basées sur mots-clés
-      if (t === '' ) return "Tu n'as rien écrit 😉";
-      if (t.includes('bonjour') || t.includes('salut')) return "Salut ! Comment je peux t'aider aujourd'hui ?";
-      if (t.includes('comment ça va') || t.includes("ça va")) return "Je suis un bot, toujours prêt à aider 😊";
-      if (t.includes('roblox')) return "Tu fais des jeux Roblox ? Super ! Tu veux des idées ou des scripts ?";
-      if (t.includes('clicker') || t.includes('click')) return "Un clicker ! Tu peux ajouter des upgrades, auto-clickers, et sauvegarde locale.";
-      if (t.includes('aide') || t.includes('comment')) return "Dis-m'en plus sur ce que tu veux faire — je peux te donner du code ou des idées.";
-      if (t.includes('merci')) return "Avec plaisir !";
-      if (t.includes('ton nom') || t.includes('comment tu t\'appelles')) return "Je suis Mini ChatBot, créé pour tester un chat local.";
+const saveHistory = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+};
 
-      // réponses génériques / aléatoires
-      const generic = [
-        "Intéressant — dis-m'en plus.",
-        "Bonne question ! Je peux te donner un exemple de code si tu veux.",
-        "Hmm... je n'ai pas compris, peux-tu reformuler ?",
-        "Je peux t'aider à faire un site, un bot, ou un jeu. Que préfères-tu ?"
-      ];
-      return generic[Math.floor(Math.random() * generic.length)];
+const botReply = (text) => {
+  const t = text.toLowerCase().trim();
+  // commandes
+  if(t.startsWith('/nom ')){
+    const name = text.slice(5).trim();
+    if(name){
+      userName = name;
+      localStorage.setItem('chat_user_name', userName);
+      return `Parfait ! Je retiens ton nom : ${userName}`;
     }
+    return 'Je n’ai pas compris le nom.';
+  }
+  if(t === '/reset'){
+    history = [];
+    saveHistory();
+    return 'Conversation réinitialisée.';
+  }
 
-    // Affiche l'historique au démarrage
-    history.forEach(item => appendMessage(item.who, item.text));
+  if(t === '') return "Tu n'as rien écrit 😉";
 
-    // Envoi
-    function sendMessage() {
-      const text = inputEl.value.trim();
-      if (!text) return;
-      // ajouter message utilisateur
-      history.push({who:'user', text, ts:Date.now()});
-      appendMessage('user', text);
-      saveHistory();
-      inputEl.value = '';
-      inputEl.focus();
+  // réponses basées sur mots-clés
+  const replies = [];
+  if(t.includes('bonjour') || t.includes('salut')) replies.push("Salut "+userName+" ! 😃");
+  if(t.includes('comment ça va') || t.includes("ça va")) replies.push("Moi ça va ! Et toi ?");
+  if(t.includes('roblox')) replies.push("Tu crées des jeux Roblox ? Cool !");
+  if(t.includes('clicker') || t.includes('click')) replies.push("Un clicker ! Tu peux ajouter des upgrades et auto-clickers.");
+  if(t.includes('aide') || t.includes('comment')) replies.push("Dis-m'en plus sur ce que tu veux faire.");
+  if(t.includes('merci')) replies.push("Avec plaisir !");
 
-      // petit délai pour simuler "réflexion"
-      appendMessage('bot', '...'); // message temporaire
-      setTimeout(() => {
-        // enlever le dernier "..."
-        const last = messagesEl.querySelectorAll('.msg.bot');
-        if (last.length) {
-          const tmp = last[last.length-1];
-          tmp.parentElement.removeChild(tmp);
-        }
-        const reply = botReply(text);
-        history.push({who:'bot', text:reply, ts:Date.now()});
-        appendMessage('bot', reply);
-        saveHistory();
-      }, 600 + Math.random()*600);
+  // réponse aléatoire si aucun mot-clé
+  if(replies.length === 0){
+    const generic = [
+      "Intéressant — dis-m'en plus.",
+      "Bonne question ! Je peux te donner un exemple de code si tu veux.",
+      "Hmm... je n'ai pas compris, peux-tu reformuler ?",
+      "Je peux t'aider à faire un site, un bot, ou un jeu. Que préfères-tu ?"
+    ];
+    replies.push(generic[Math.floor(Math.random()*generic.length)]);
+  }
+
+  return replies[Math.floor(Math.random()*replies.length)];
+};
+
+history.forEach(item => appendMessage(item.who, item.text));
+
+function sendMessage(){
+  const text = inputEl.value.trim();
+  if(!text) return;
+
+  history.push({who:'user', text, ts:Date.now()});
+  appendMessage('user', text);
+  saveHistory();
+  inputEl.value = '';
+  inputEl.focus();
+
+  // message temporaire "typing..."
+  appendMessage('bot','...');
+  setTimeout(()=>{
+    const last = messagesEl.querySelectorAll('.msg.bot');
+    if(last.length){
+      const tmp = last[last.length-1];
+      tmp.parentElement.removeChild(tmp);
     }
+    const reply = botReply(text);
+    history.push({who:'bot', text:reply, ts:Date.now()});
+    appendMessage('bot', reply);
+    saveHistory();
+  }, 600 + Math.random()*800);
+}
 
-    sendBtn.addEventListener('click', sendMessage);
-    inputEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
+sendBtn.addEventListener('click', sendMessage);
+inputEl.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
-    clearBtn.addEventListener('click', () => {
-      if (confirm("Effacer la conversation locale ?")) {
-        history = [];
-        saveHistory();
-        messagesEl.innerHTML = '';
-      }
-    });
-  </script>
+clearBtn.addEventListener('click',()=>{
+  if(confirm("Effacer la conversation locale ?")){
+    history=[];
+    saveHistory();
+    messagesEl.innerHTML='';
+  }
+});
+</script>
 </body>
 </html>
