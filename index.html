@@ -2,16 +2,18 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Fond Animé Rouge</title>
+<title>Fond Animé Rouge avec Texte</title>
 <style>
   html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
+    font-family: Arial, sans-serif;
     background: linear-gradient(-45deg, #000000, #330000, #660000, #990000);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
+    color: white;
   }
 
   @keyframes gradientBG {
@@ -25,10 +27,26 @@
     top: 0;
     left: 0;
   }
+
+  .center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(255,0,0,0.7);
+    padding: 20px;
+  }
 </style>
 </head>
 <body>
 <canvas id="particles"></canvas>
+
+<div class="center-text">
+  Ici tu trouveras tout les sites de streaming francais gratuit
+</div>
 
 <script>
 const canvas = document.getElementById('particles');
@@ -41,7 +59,6 @@ window.addEventListener('resize', () => {
   height = canvas.height = window.innerHeight;
 });
 
-// Création des particules
 const particles = [];
 const particleCount = 80;
 
@@ -57,26 +74,21 @@ for(let i=0; i<particleCount; i++){
   });
 }
 
-// Fonction d'animation
 function animate(){
   ctx.clearRect(0,0,width,height);
 
   for(let i=0;i<particles.length;i++){
     let p = particles[i];
 
-    // Déplacement
     p.x += p.dx;
     p.y += p.dy;
 
-    // Rebond sur les bords
     if(p.x < 0 || p.x > width) p.dx *= -1;
     if(p.y < 0 || p.y > height) p.dy *= -1;
 
-    // Variation alpha pour scintillement
     p.alpha += p.alphaChange;
     if(p.alpha > 1 || p.alpha < 0.2) p.alphaChange *= -1;
 
-    // Dessiner la particule
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(255, 150, 150, ${p.alpha})`;
@@ -90,3 +102,4 @@ animate();
 </script>
 </body>
 </html>
+
