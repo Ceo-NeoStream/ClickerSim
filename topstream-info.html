@@ -15,6 +15,7 @@
       background-size: 400% 400%;
       animation: gradientBG 16s ease infinite;
       color: white;
+      transition: opacity 0.7s ease; /* transition fluide pour tout le corps */
     }
 
     @keyframes gradientBG {
@@ -145,5 +146,32 @@
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x <
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+        if (p.y < -10) p.y = height + 10;
+        if (p.y > height + 10) p.y = -10;
 
+        p.alpha += p.dalpha;
+        if (p.alpha > 1.0) { p.alpha = 1; p.dalpha *= -1; }
+        if (p.alpha < 0.12) { p.alpha = 0.12; p.dalpha *= -1; }
+
+        drawParticle(p);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Effet de transition fluide pour le bouton "Accueil"
+    const backButton = document.querySelector('.back-button');
+    backButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = backButton.href;
+      }, 700);
+    });
+  </script>
+</body>
+</html>
