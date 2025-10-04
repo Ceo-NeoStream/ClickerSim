@@ -71,15 +71,16 @@
   }
 
   .link-list a {
-    display: block;
-    margin: 12px 0;
+    display: inline-block;
+    margin: 8px 0;
     font-size: clamp(14px, 5vw, 20px);
     font-weight: bold;
     text-decoration: none;
-    text-shadow: 0 0 10px rgba(255,0,0,0.7);
     transition: 0.3s;
     padding: 6px 10px;
     border-radius: 6px;
+    -webkit-text-stroke: 1px black; /* contour noir */
+    text-stroke: 1px black;
   }
 
   .link-list a.topstream {
@@ -89,7 +90,7 @@
   .link-list a.topstream-info {
     color: #ffffff; /* blanc pour (Informations) */
     font-weight: normal;
-    margin-left: 10px; /* petit espace après TopStream */
+    margin-left: 10px;
   }
 
   .link-list a.xalaflix {
