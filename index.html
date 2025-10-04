@@ -70,40 +70,49 @@
     width: auto;
   }
 
+  /* Liens avec contour noir et effet brillant léger */
   .link-list a {
     display: inline-block;
     margin: 8px 0;
     font-size: clamp(14px, 5vw, 20px);
     font-weight: bold;
     text-decoration: none;
-    transition: 0.3s;
     padding: 6px 10px;
     border-radius: 6px;
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 1px black; /* contour noir */
     text-stroke: 1px black;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
   }
 
-  .link-list a.topstream {
-    color: #ffaaaa;
+  .link-list a::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.1) 100%);
+    transform: rotate(25deg);
+    opacity: 0;
   }
 
-  .link-list a.topstream-info {
-    color: #ffffff; /* blanc pour (Informations) */
-    font-weight: normal;
-    margin-left: 10px;
+  .link-list a:hover::after {
+    opacity: 1;
+    animation: shine 1s infinite;
   }
 
-  .link-list a.xalaflix {
-    color: #aa88ff;
+  @keyframes shine {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(100%) rotate(25deg); }
   }
 
-  .link-list a.cinepulse {
-    color: #ff4444;
-  }
-
-  .link-list a.movbor {
-    color: #aaaaaa;
-  }
+  .link-list a.topstream { color: #ffaaaa; }
+  .link-list a.topstream-info { color: #ffffff; font-weight: normal; margin-left: 10px; }
+  .link-list a.xalaflix { color: #aa88ff; }
+  .link-list a.cinepulse { color: #ff4444; }
+  .link-list a.movbor { color: #aaaaaa; }
 
   .link-list a:hover {
     color: #ffffff;
