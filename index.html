@@ -209,6 +209,18 @@
   }
 
   animate();
+
+  // Effet de transition fluide pour le lien (Informations)
+  const infoLink = document.querySelector('.topstream-info');
+
+  infoLink.addEventListener('click', function(e){
+    e.preventDefault(); // empêche le changement de page immédiat
+    document.body.style.transition = "opacity 0.7s ease";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = infoLink.href; // redirection après le fondu
+    }, 700); // même durée que la transition
+  });
   </script>
 </body>
 </html>
