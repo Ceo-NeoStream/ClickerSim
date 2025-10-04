@@ -47,16 +47,14 @@
     color: #fff;
     background: rgba(0,0,0,0.3);
     border-radius: 8px;
-    max-width: 90%; /* limite pour mobile */
+    max-width: 90%;
     box-sizing: border-box;
   }
 
-  /* Texte vert */
   .top-text span.green {
     color: #4cff4c;
   }
 
-  /* ⚡ Sur PC : on garde sur une ligne */
   @media (min-width: 768px) {
     .top-text {
       white-space: nowrap;
@@ -65,13 +63,11 @@
 
   .link-list {
     position: absolute;
-    top: 90px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 140px; /* 🔽 espace augmenté après le texte du haut */
+    left: 20px; /* ⬅️ aligné à gauche */
     z-index: 10;
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
+    text-align: left;
+    width: auto;
   }
 
   .link-list a {
@@ -97,7 +93,7 @@
   <canvas id="particles" aria-hidden="true"></canvas>
 
   <div class="top-text">
-    Ici tu trouveras tous les sites de streaming français gratuits, et <span class="green">100%</span> sûr
+    Ici tu trouveras tous les sites de streaming français gratuits, et <span class="green">100%</span> sûr.
   </div>
 
   <div class="link-list">
