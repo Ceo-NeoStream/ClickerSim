@@ -63,8 +63,8 @@
 
   .link-list {
     position: absolute;
-    top: 140px; /* 🔽 espace augmenté après le texte du haut */
-    left: 20px; /* ⬅️ aligné à gauche */
+    top: 140px; /* espace après le texte */
+    left: 20px; /* aligné à gauche */
     z-index: 10;
     text-align: left;
     width: auto;
@@ -75,12 +75,19 @@
     margin: 12px 0;
     font-size: clamp(14px, 5vw, 20px);
     font-weight: bold;
-    color: #ffaaaa;
     text-decoration: none;
     text-shadow: 0 0 10px rgba(255,0,0,0.7);
     transition: 0.3s;
     padding: 6px 10px;
     border-radius: 6px;
+  }
+
+  .link-list a.topstream {
+    color: #ffaaaa; /* couleur TopStream */
+  }
+
+  .link-list a.xalaflix {
+    color: #aa88ff; /* couleur XalaFlix violette */
   }
 
   .link-list a:hover {
@@ -97,7 +104,9 @@
   </div>
 
   <div class="link-list">
-    <a href="https://top-stream.cc/browse" target="_blank">1 : TopStream</a>
+    <a href="https://top-stream.cc/browse" target="_blank" class="topstream">1 : TopStream</a>
+    <br><br> <!-- saut de 2 lignes -->
+    <a href="https://xalaflix.run/" target="_blank" class="xalaflix">2 : XalaFlix</a>
   </div>
 
   <script>
