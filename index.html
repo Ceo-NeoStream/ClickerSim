@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Fond animé rouge - Particules</title>
+<title>Streaming Sites</title>
 <style>
   html,body {
     height:100%;
@@ -35,36 +35,42 @@
 
   .top-text {
     position: absolute;
-    top: 20px;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     text-align:center;
-    font-size: 26px;
+    font-size: clamp(16px, 4vw, 26px); /* s'adapte écran */
     font-weight: 700;
-    padding: 8px 16px;
+    padding: 8px 12px;
+    max-width: 90%;
+    line-height: 1.4;
     text-shadow: 0 2px 14px rgba(255,60,60,0.6), 0 1px 2px rgba(0,0,0,0.6);
     color: #fff;
   }
 
   .link-list {
     position: absolute;
-    top: 80px; /* sous le texte du haut */
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     text-align: center;
+    width: 90%;
+    max-width: 500px;
   }
 
   .link-list a {
     display: block;
-    margin: 10px 0;
-    font-size: 22px;
+    margin: 12px 0;
+    font-size: clamp(16px, 5vw, 22px);
     font-weight: bold;
     color: #ffaaaa;
     text-decoration: none;
     text-shadow: 0 0 10px rgba(255,0,0,0.7);
     transition: 0.3s;
+    padding: 6px 10px;
+    border-radius: 6px;
   }
 
   .link-list a:hover {
@@ -77,7 +83,7 @@
   <canvas id="particles" aria-hidden="true"></canvas>
 
   <div class="top-text">
-    Ici tu trouveras tout les sites de streaming francais gratuit
+    Ici tu trouveras tous les sites de streaming français gratuits
   </div>
 
   <div class="link-list">
@@ -106,7 +112,7 @@
   resizeCanvas();
 
   const particles = [];
-  const particleCount = 90;
+  const particleCount = 80;
 
   for (let i = 0; i < particleCount; i++) {
     particles.push({
