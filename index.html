@@ -63,8 +63,8 @@
 
   .link-list {
     position: absolute;
-    top: 140px; /* espace après le texte */
-    left: 20px; /* aligné à gauche */
+    top: 140px;
+    left: 20px;
     z-index: 10;
     text-align: left;
     width: auto;
@@ -83,19 +83,25 @@
   }
 
   .link-list a.topstream {
-    color: #ffaaaa; /* couleur TopStream */
+    color: #ffaaaa;
+  }
+
+  .link-list a.topstream-info {
+    color: #ffffff; /* blanc pour (Informations) */
+    font-weight: normal;
+    margin-left: 10px; /* petit espace après TopStream */
   }
 
   .link-list a.xalaflix {
-    color: #aa88ff; /* couleur XalaFlix violette */
+    color: #aa88ff;
   }
 
   .link-list a.cinepulse {
-    color: #ff4444; /* couleur Cinepulse rouge */
+    color: #ff4444;
   }
 
   .link-list a.movbor {
-    color: #aaaaaa; /* couleur MovBor gris */
+    color: #aaaaaa;
   }
 
   .link-list a:hover {
@@ -113,11 +119,12 @@
 
   <div class="link-list">
     <a href="https://top-stream.cc/browse" target="_blank" class="topstream">1 : TopStream</a>
-    <br> <!-- 1 ligne de saut -->
+    <a href="topstream-info.html" class="topstream-info">(Informations)</a>
+    <br>
     <a href="https://xalaflix.run/" target="_blank" class="xalaflix">2 : XalaFlix</a>
-    <br> <!-- 1 ligne de saut -->
+    <br>
     <a href="#" class="cinepulse">3 : Cinepulse (En pause jusqu'à début 2026)</a>
-    <br> <!-- 1 ligne de saut -->
+    <br>
     <a href="https://www.movbor.fr/" target="_blank" class="movbor">4 : MovBor</a>
   </div>
 
